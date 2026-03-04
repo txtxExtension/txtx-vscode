@@ -1,0 +1,180 @@
+{
+  "name": "txtx-vscode",
+  "displayName": "txtx",
+  "description": "VSCode extension for txtx runbook automation (Solana/SVM)",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:txtx.yml",
+    "workspaceContains:**/*.tx",
+    "onLanguage:txtx",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "txtx",
+        "aliases": [
+          "txtx",
+          "tx"
+        ],
+        "extensions": [
+          ".tx"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "txtx",
+        "scopeName": "source.tx",
+        "path": "./syntaxes/txtx.tmLanguage.json"
+      }
+    ],
+    "views": {
+      "txtx-explorer": [
+        {
+          "id": "txtxRunbooks",
+          "name": "Runbooks"
+        },
+        {
+          "id": "txtxStates",
+          "name": "States"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "txtx-explorer",
+          "title": "txtx",
+          "icon": "./images/icon.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "txtxRunbooks",
+        "contents": "No txtx.yml found in this workspace.\n[Open a txtx project](command:vscode.openFolder)"
+      },
+      {
+        "view": "txtxStates",
+        "contents": "No state files found.\nRun a runbook to generate state."
+      }
+    ],
+    "commands": [
+      {
+        "command": "txtx.runRunbook",
+        "title": "Run Runbook",
+        "icon": "$(play)"
+      },
+      {
+        "command": "txtx.clearState",
+        "title": "Clear State",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "txtx.refreshRunbooks",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "txtx.refreshStates",
+        "title": "Refresh States",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "txtx.viewState",
+        "title": "View State Details"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "txtx.refreshRunbooks",
+          "when": "view == txtxRunbooks",
+          "group": "navigation"
+        },
+        {
+          "command": "txtx.refreshStates",
+          "when": "view == txtxStates",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "txtx.runRunbook",
+          "when": "view == txtxRunbooks && viewItem == runbook",
+          "group": "inline"
+        },
+        {
+          "command": "txtx.clearState",
+          "when": "view == txtxStates && viewItem == stateFile",
+          "group": "inline"
+        },
+        {
+          "command": "txtx.viewState",
+          "when": "view == txtxStates && viewItem == stateFile"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "txtx",
+      "properties": {
+        "txtx.cliPath": {
+          "type": "string",
+          "default": "txtx",
+          "description": "txtx CLI 可执行文件路径（默认从 PATH 查找）"
+        },
+        "txtx.showOutputOnRun": {
+          "type": "boolean",
+          "default": true,
+          "description": "运行 runbook 时自动显示输出面板"
+        },
+        "txtx.defaultEnvironment": {
+          "type": "string",
+          "default": "devnet",
+          "enum": [
+            "devnet",
+            "localnet",
+            "mainnet"
+          ],
+          "description": "默认运行环境"
+        },
+        "txtx.promptEnvironmentOnRun": {
+          "type": "boolean",
+          "default": true,
+          "description": "运行 runbook 前弹出网络选择（来自 txtx.yml 的 environments）"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^2.6.2"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "txtx",
+  "scopeName": "source.tx",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#blocks" },
+    { "include": "#functions" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#booleans" },
+    { "include": "#keywords" },
+    { "include": "#references" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.tx",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.tx",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "blocks": {
+      "patterns": [
+        {
+          "comment": "addon block: addon \"name\" { }",
+          "name": "meta.block.addon.tx",
+          "begin": "\\b(addon)\\b\\s*(\"[^\"]*\")\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.addon.tx" },
+            "2": { "name": "string.quoted.double.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        },
+        {
+          "comment": "signer block: signer \"name\" \"type\" { }",
+          "name": "meta.block.signer.tx",
+          "begin": "\\b(signer)\\b\\s*(\"[^\"]*\")\\s*(\"[^\"]*\")\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.signer.tx" },
+            "2": { "name": "entity.name.tx" },
+            "3": { "name": "support.type.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        },
+        {
+          "comment": "action block: action \"name\" \"type\" { }",
+          "name": "meta.block.action.tx",
+          "begin": "\\b(action)\\b\\s*(\"[^\"]*\")\\s*(\"[^\"]*\")\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.action.tx" },
+            "2": { "name": "entity.name.tx" },
+            "3": { "name": "support.type.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        },
+        {
+          "comment": "variable block: variable \"name\" { }",
+          "name": "meta.block.variable.tx",
+          "begin": "\\b(variable)\\b\\s*(\"[^\"]*\")\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.variable.tx" },
+            "2": { "name": "entity.name.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        },
+        {
+          "comment": "output block: output \"name\" { }",
+          "name": "meta.block.output.tx",
+          "begin": "\\b(output)\\b\\s*(\"[^\"]*\")\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.output.tx" },
+            "2": { "name": "entity.name.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        },
+        {
+          "comment": "input block: input \"name\" { }",
+          "name": "meta.block.input.tx",
+          "begin": "\\b(input)\\b\\s*(\"[^\"]*\")\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.input.tx" },
+            "2": { "name": "entity.name.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        },
+        {
+          "comment": "generic named sub-block: identifier { }",
+          "name": "meta.block.generic.tx",
+          "begin": "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+          "beginCaptures": {
+            "1": { "name": "variable.other.property.tx" }
+          },
+          "end": "\\}",
+          "patterns": [{ "include": "$self" }]
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "comment": "svm:: namespace functions",
+          "name": "support.function.svm.tx",
+          "match": "\\bsvm::[a-zA-Z_][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    },
+    "references": {
+      "patterns": [
+        {
+          "comment": "reference chains: signer.name.field, action.name.field, etc.",
+          "name": "variable.other.reference.tx",
+          "match": "\\b(signer|action|variable|output|input)\\.([a-zA-Z_][a-zA-Z0-9_]*)(\\.[a-zA-Z_][a-zA-Z0-9_]*)*\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.other.tx",
+          "match": "\\b(value|description|keypair_json|rpc_api_url|program_id|program_idl|instruction_name|instruction_args|signers|program|authority|payer|public_key)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.tx",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.tx",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.tx",
+      "match": "\\b[0-9]+(\\.[0-9]+)?\\b"
+    },
+    "booleans": {
+      "name": "constant.language.boolean.tx",
+      "match": "\\b(true|false|null)\\b"
+    },
+    "operators": {
+      "name": "keyword.operator.tx",
+      "match": "="
+    }
+  }
+}
