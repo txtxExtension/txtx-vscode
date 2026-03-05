@@ -1,8 +1,9 @@
 {
   "name": "txtx-vscode",
   "displayName": "txtx",
-  "publisher": "publisher",
+  "publisher": "TxtxVscode",
   "description": "VSCode extension for txtx runbook automation (Solana/SVM)",
+  "license": "MIT",
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.85.0"
