@@ -1,6 +1,7 @@
 {
   "name": "txtx-vscode",
   "displayName": "txtx",
+  "publisher": "publisher",
   "description": "VSCode extension for txtx runbook automation (Solana/SVM)",
   "version": "0.1.0",
   "engines": {
@@ -8,8 +9,10 @@
   },
   "categories": [
     "Programming Languages",
+    "Debuggers",
     "Other"
   ],
+  "repository": "https://github.com/txtxExtension/txtx-vscode",
   "activationEvents": [
     "workspaceContains:txtx.yml",
     "workspaceContains:**/*.tx",
